@@ -12,21 +12,32 @@ angular.module('mpApp.controllers', [])
         }
     }
 })
-.controller('norrisController', function($scope, $log, $http) {
+.controller('pockemonController', function($scope, $log, $http) {
     
-    $scope.getNorris = function(){
-        $scope.norrisFacts = [];
+    $scope.getPockemon = function(){
+        $scope.pockemonTypes = [];		
+		$scope.name="";
+		$scope.weight="";
+		$scope.height="";
+		$scope.experience="";
         
-        var url="https://api.chucknorris.io/jokes/search?query="+$scope.search;
+        var url="http://pokeapi.co/api/v2/pokemon/"+$scope.nombre+"/";		
         
         $http({method:'GET',
             url:url})
                 .then(function success(response){
-                    $scope.norrisFacts = response.data.result;
-                    $log.warn("Facts encontrados" + response.data.total);
-            
+                    $scope.name = response.data.name;
+					$scope.weight = response.data.weight;
+					$scope.height = response.data.height;
+					$scope.experience = response.data.base_experience;
+					$scope.pockemonTypes= response.data.types;
+                    $log.warn("Name " + response.data.name);            
+					$log.warn("Weight " + response.data.weight);            
+					$log.warn("Height " + response.data.height);            
+					$log.warn("Experience " + response.data.base_experience);            
+					$log.warn("Types " + response.data.types);            
                 }, function error(response){
-                    $scope.norrisFacts = [];
+                    $scope.pockemonFacts = [];
                 });
          
         $scope.dev = {};
